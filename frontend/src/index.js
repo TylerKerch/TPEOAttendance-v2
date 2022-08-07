@@ -10,7 +10,12 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <MantineProvider>
+    <MantineProvider 
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        primaryColor: "orange"
+      }}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

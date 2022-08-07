@@ -1,5 +1,3 @@
-import "./app.css";
-
 import { Routes, Route } from "react-router-dom";
 
 import MeetingCreation from "./pages/MeetingCreation/MeetingCreation.js";
