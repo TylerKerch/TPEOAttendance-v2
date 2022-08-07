@@ -3,7 +3,6 @@ import {AppShell, Button, Header, Text} from '@mantine/core';
 import { IconArrowLeft } from "@tabler/icons";
 
 export default function Layout(props) {
-    // // gets header-height css variable
     function getHeader() {
             return (
                 <Header

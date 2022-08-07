@@ -14,6 +14,9 @@ export default function MeetingCreation() {
         }
     }, []);
 
+    const[meetings, setMeetings] = useState();
+    const[loggedIn, setLoggedIn] = useState(false);
+    
     const meeting = useForm({
         initialValues: {
           name: '',
@@ -51,9 +54,6 @@ export default function MeetingCreation() {
           ));
         setMeetings(rows);
     };
-
-    const[meetings, setMeetings] = useState();
-    const[loggedIn, setLoggedIn] = useState(false);
 
     return (
         <Fragment>
@@ -154,7 +154,7 @@ export default function MeetingCreation() {
                                 </Paper>
                             : <LoginLink/>
                         }
-                        
+
                     </Box>
                </Layout>
         </Fragment>
