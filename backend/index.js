@@ -122,7 +122,24 @@ app.get('/meetings_list', async (req, res) => {
     snapshot.docs.forEach(doc => meetings.push(doc.data()));
     return res.json({ msg: "Success", data: meetings });
   } catch (error) {
-    return res.status(400).send(`User does not exist`)
+    return res.status(400).send(`Unavailable to get meetings`)
+  }
+});
+
+app.post('/running_meetings', async (req, res) => {
+  try {
+    const snapshot = await db.collection('meetings').get();
+    const meetings = {};
+    snapshot.docs.forEach(doc => {
+      const data = doc.data();
+      if(req.body.date >= Math.round(Date.parse(data.start) / 1000) && req.body.date < Math.round(Date.parse(data.end) / 1000)){
+        meetings[data.type] = data;
+        delete meetings[data.type].password;
+      }
+    });
+    return res.json({ msg: "Success", data: meetings });
+  } catch (error) {
+    return res.status(400).send(`Unable to obtain running meetings`)
   }
 });
 
@@ -151,12 +168,10 @@ function getFormattedDate(d) {
   return mm + '/' + dd + '/' + yyyy;
 }
 
-app.delete('/delete_meetings', async (req, res) => {
+app.delete('/delete_meeting', async (req, res) => {
   try {
     const snapshot = await db.collection('meetings');
-    for (const meetingID of req.body.meetings) {
-      await snapshot.doc(meetingID.toString()).delete().catch((error) => { console.log("Error removing document:", error) });
-    }
+    await snapshot.doc(req.body.meeting.toString()).delete().catch((error) => { console.log("Error removing document:", error) });
     return res.json({ msg: "Success", data: snapshot });
   } catch (error) {
     return res.status(400).send(`User does not exist`)
@@ -185,15 +200,31 @@ app.post('/signin', async (req, res) => {
   try {
     const member = req.body.member;
     const snapshot = await db.collection('members');
-    const id = req.body.meeting.id;
+    const meetingSnapshot = await db.collection('meetings');
+    const id = req.body.id;
+    const meeting = await meetingSnapshot.doc(id).get();
     const lateJSON = {};
-    lateJSON[id] = req.body.late?"Late":"Present";
+    if(req.body.password !== meeting.data().password){
+      return res.json({correctPassword: false});
+    }
+    const startDate = new Date(meeting.data().start)
+    lateJSON[id] = (req.body.date > startDate.getTime()+10*60*1000)?"Late":"Present";
     await snapshot.doc(member.user_id).update(lateJSON);
-    const result = await snapshot.doc(member.user_id).get();
-    return res.json({ msg: "Success", data: result.data() });
+    return res.json({correctPassword: true});
   } catch (error) {
-    return res.status(400).send(`User does not exist`)
+    return res.status(400).send(`Failed to verify password`)
   }
+});
+
+app.post('/password', async (req, res) => {
+  try {
+    const id = req.body.meeting;
+    const snapshot = await db.collection('meetings');
+    const result = await snapshot.doc(id).get();
+    return res.json({correctPassword: (req.body.password == result.password)});
+  } catch (error) {
+    return res.status(400).send(`Failure to verify password`)
+  } 
 });
 
 app.post('/update_attendance', async (req, res) => {
@@ -234,9 +265,3 @@ app.post('/member_type', async (req, res) => {
   }
 });
 
-app.post('/password', async (req, res) => {
-    const id = req.body.meeting;
-    const snapshot = await db.collection('meetings');
-    const result = await snapshot.doc(id).get();
-    return res.json({ msg: "Success", data: result.data()});
-});
