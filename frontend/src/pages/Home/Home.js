@@ -48,7 +48,7 @@ export default function Home() {
                     ]}>
                     <HomeButton title="Check In" navigateTo="/checkin"/>
                     <HomeButton title="Create Meeting" navigateTo="/meetings"/>
-                    <HomeButton title="Create Meeting" navigateTo="/meetings"/>
+                    <HomeButton title="Attendance History" navigateTo="/history"/>
                     <HomeButton title="Create Meeting" navigateTo="/meetings"/>
                 </SimpleGrid>
             </Layout>

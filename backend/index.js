@@ -133,8 +133,10 @@ app.post('/running_meetings', async (req, res) => {
     snapshot.docs.forEach(doc => {
       const data = doc.data();
       if(req.body.date >= Math.round(Date.parse(data.start) / 1000) && req.body.date < Math.round(Date.parse(data.end) / 1000)){
-        meetings[data.type] = data;
-        delete meetings[data.type].password;
+        if(!meetings.hasOwnProperty(data.type) || !(new Date(meetings[data.type].start)).getTime() > (new Date(data.start)).getTime()){
+          meetings[data.type] = data;
+          delete meetings[data.type].password;
+        }
       }
     });
     return res.json({ msg: "Success", data: meetings });
@@ -182,17 +184,20 @@ app.post('/attendance_list', async (req, res) => {
   try {
     const meetings = await db.collection('meetings').get();
     const member = await db.collection('members').doc(req.body.id).get();
+    const memberData = member.data();
     const attendance_list = [];
+    now = Date.now()
+    
     meetings.docs.forEach(doc => {
-      if(member.data().hasOwnProperty(doc.id)){
-        attendance_list.push([member.data()[doc.id],doc.data()['type']]);
-      }else{
-        attendance_list.push(["Absent",doc.data()['type']]);
+      const meeting = doc.data();
+      if((new Date(meeting.start)).getTime() < now && (meeting.type == memberData.type || meeting.type == "General")){
+        const attendanceStatus = member.data().hasOwnProperty(meeting.id)?member.data()[meeting.id]:"Absent";
+        attendance_list.push({name: meeting.name, day: meeting.day, type: meeting.type, attendance: attendanceStatus});
       }
     });
     return res.json({ msg: "Success", data: attendance_list});
   } catch (error) {
-    return res.status(400).send(`User does not exist`)
+    return res.status(400).send(`Unable to retrieve attendance list`)
   }
 });
 

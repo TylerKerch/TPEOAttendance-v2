@@ -13,11 +13,13 @@ export default function Checkin() {
     const fetchData = async () => {
       if (await verifyCredentials(navigate)) {
         await getRunningMeetings();
+        setLoaded(true);
       }
     }
     fetchData();
   }, []);
 
+  const [loaded, setLoaded] = useState(false);
   const [checkingIn, setCheckingIn] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [member, setMember] = useState({});
@@ -46,6 +48,7 @@ export default function Checkin() {
       body: JSON.stringify({ date: Math.round(Date.now() / 1000) }),
     });
     const result = await running_meetings.json();
+    console.log(result.data)
     setRunningMeetings(result.data);
   };
 
@@ -127,48 +130,49 @@ export default function Checkin() {
   return (
     <Fragment>
       <Layout headerTitle="Check In" back logout>
-        {checkingIn ?
-            (loggedIn ? <Text>Success!</Text> :
-             <Box
-                  sx={(theme) => ({
-                      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-                      textAlign: 'center',
-                      padding: theme.spacing.xl,
-                      borderRadius: theme.radius.md,
-                      cursor: 'pointer',
-                      width: '100%',
-                      float: 'left',
-                      padding: '20px',
+        {loaded && 
+          (checkingIn ?
+              (loggedIn ? <Text>Success!</Text> :
+              <Box
+                    sx={(theme) => ({
+                        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+                        textAlign: 'center',
+                        padding: theme.spacing.xl,
+                        borderRadius: theme.radius.md,
+                        cursor: 'pointer',
+                        width: '100%',
+                        float: 'left',
+                        padding: '20px',
 
-                      '&:hover': {
-                      backgroundColor:
-                          theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
-                      },
-                  })}
-                >
-                  <Title>Check In for {selectedMeeting.name}</Title>
-                  <TextInput
-                      sx={{'input': {textAlign: 'center'}}}
-                      label="Password"
-                      required
-                      value={password}
-                      onChange={(event) => setPassword(event.currentTarget.value)}
-                  />
-                  <Button variant="light" sx={{marginTop:'10px', '&:hover': {backgroundColor: 'black', color: 'white'}}}
-                      onClick={() => verifyPassword()}>Check In</Button>
-              </Box>)
-          :
-          <SimpleGrid
-            cols={2}
-            spacing="lg"
-            breakpoints={[
-              { maxWidth: 1000, cols: 1, spacing: 'sm' }
-            ]}>
-            <CheckinButton type="General" />
-            <CheckinButton type="Product" />
-            <CheckinButton type="Design" />
-            <CheckinButton type="Engineering" />
-          </SimpleGrid>}
+                        '&:hover': {
+                        backgroundColor:
+                            theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+                        },
+                    })}
+                  >
+                    <Title>Check In for {selectedMeeting.name}</Title>
+                    <TextInput
+                        sx={{'input': {textAlign: 'center'}}}
+                        label="Password"
+                        required
+                        value={password}
+                        onChange={(event) => setPassword(event.currentTarget.value)}
+                    />
+                    <Button variant="light" sx={{marginTop:'10px', '&:hover': {backgroundColor: 'black', color: 'white'}}}
+                        onClick={() => verifyPassword()}>Check In</Button>
+                </Box>)
+            :
+            <SimpleGrid
+              cols={2}
+              spacing="lg"
+              breakpoints={[
+                { maxWidth: 1000, cols: 1, spacing: 'sm' }
+              ]}>
+              <CheckinButton type="General" />
+              <CheckinButton type="Product" />
+              <CheckinButton type="Design" />
+              <CheckinButton type="Engineering" />
+            </SimpleGrid>)}
       </Layout>
     </Fragment>
   );
