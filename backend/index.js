@@ -192,10 +192,10 @@ app.post('/attendance_list', async (req, res) => {
       const meeting = doc.data();
       if((new Date(meeting.start)).getTime() < now && (meeting.type == memberData.type || meeting.type == "General")){
         const attendanceStatus = member.data().hasOwnProperty(meeting.id)?member.data()[meeting.id]:"Absent";
-        attendance_list.push({name: meeting.name, day: meeting.day, type: meeting.type, attendance: attendanceStatus});
+        attendance_list.push({id: meeting.id, name: meeting.name, day: meeting.day, type: meeting.type, attendance: attendanceStatus});
       }
     });
-    return res.json({ msg: "Success", data: attendance_list});
+    return res.json({ msg: "Success", data: attendance_list, type: memberData['type']});
   } catch (error) {
     return res.status(400).send(`Unable to retrieve attendance list`)
   }

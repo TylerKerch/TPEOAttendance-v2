@@ -4,7 +4,7 @@ import { IconTrash } from "@tabler/icons";
 import {Fragment, useEffect, useState} from "react";
 import {Box, Button, Container, Paper, RingProgress, Select, SimpleGrid, Table, ActionIcon, Text, TextInput, Title} from '@mantine/core';
 import {DatePicker, TimeInput} from '@mantine/dates';
-import {verifyCredentials} from '../../Utils/VerifyCredentials.js';
+import {verifyCredentials} from '../../utils/VerifyCredentials.js';
 import { useNavigate } from 'react-router-dom';
 const { default: jwtDecode } = require("jwt-decode");
 
@@ -23,7 +23,7 @@ export default function AttendanceHistory() {
     const [attendance, setAttendance] = useState();
     const [loaded, setLoaded] = useState(false);
     const [metrics, setMetrics] = useState({});
-
+    const [role, setRole] = useState();
 
     async function getAttendance() {
         const attendance_list = await fetch("http://localhost:5500/attendance_list", {
@@ -37,7 +37,6 @@ export default function AttendanceHistory() {
         const result = await attendance_list.json();
         const elements = result.data;
         elements.sort(function(a, b){return (new Date(b.day)).getTime() - (new Date(a.day)).getTime()});
-        let role = "";
         let roleCount = 0;
         let roleAttended = 0;
         let generalCount = 0;
@@ -47,8 +46,7 @@ export default function AttendanceHistory() {
                 generalCount++;
                 if(element.attendance !== "Absent")
                     generalAttended++;
-            }else{
-                role = element.type;
+            }else if(element.type == result.type){
                 roleCount++;
                 if(element.attendance !== "Absent")
                     roleAttended++;
@@ -60,7 +58,8 @@ export default function AttendanceHistory() {
               <td>{element.attendance}</td>
             </tr>);
         });
-        setMetrics({role: role, roleCount: roleCount, roleAttended: roleAttended, generalCount: generalCount, generalAttended: generalAttended});
+        setRole(result.type);
+        setMetrics({roleCount: roleCount, roleAttended: roleAttended, generalCount: generalCount, generalAttended: generalAttended});
         setAttendance(rows);
     };
 
@@ -70,11 +69,11 @@ export default function AttendanceHistory() {
                 {loaded && <div>
                     <SimpleGrid
                         cols={2}
-                        spacing="lg"
+                        spacing={0}
                         breakpoints={[
-                            { maxWidth: 1000, cols: 1, spacing: 'sm'}
+                            { maxWidth: 800, cols: 1}
                           ]}>
-                        <Container sx={{maxWidth: '400px', margin: '20px', borderRadius: '100px', backgroundColor: '#E4F1FF', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <Container sx={{maxWidth: '400px', padding: '10px', margin: '10px', borderRadius: '100px', backgroundColor: '#E4F1FF', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                             <RingProgress
                                 sections={[{ value: metrics.generalAttended/metrics.generalCount*100, color: 'blue' }]}
                                 rootColor="#D9EAFF"
@@ -89,7 +88,7 @@ export default function AttendanceHistory() {
                                     General Meetings Attended
                                 </Text>
                         </Container>
-                        <Container sx={{maxWidth: '400px', margin: '20px', borderRadius: '100px', backgroundColor: '#EEDAFF', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <Container sx={{maxWidth: '400px', padding: '10px', margin: '10px', borderRadius: '100px', backgroundColor: '#EEDAFF', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                             <RingProgress
                                 sections={[{value: metrics.roleAttended/metrics.roleCount*100, color: '#C175FF'}]}
                                 rootColor="#DFBCFB"
@@ -101,7 +100,7 @@ export default function AttendanceHistory() {
                                 }
                             />
                             <Text color="purple" weight={700} align="center" size="xl">
-                                    {metrics.role} Meetings Attended
+                                    {role} Meetings Attended
                                 </Text>
                         </Container>
                     </SimpleGrid>

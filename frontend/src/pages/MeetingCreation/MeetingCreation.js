@@ -4,7 +4,7 @@ import { IconTrash } from "@tabler/icons";
 import {Fragment, useEffect, useState} from "react";
 import {Box, Button, Paper, Select, SimpleGrid, Table, ActionIcon, Text, TextInput, Title} from '@mantine/core';
 import {DatePicker, TimeInput} from '@mantine/dates';
-import {verifyCredentials} from '../../Utils/VerifyCredentials.js';
+import {verifyCredentials} from '../../utils/VerifyCredentials.js';
 import { useNavigate } from 'react-router-dom';
 
 export default function MeetingCreation() {

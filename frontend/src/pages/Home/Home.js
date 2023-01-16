@@ -2,7 +2,7 @@ import Layout from '../../components/Layout/Layout.js';
 import { Fragment, useEffect} from "react";
 import { Button, SimpleGrid} from '@mantine/core';
 import { useNavigate } from "react-router-dom";
-import {verifyCredentials} from '../../Utils/VerifyCredentials.js';
+import {verifyCredentials} from '../../utils/VerifyCredentials.js';
 
 export default function Home() {
     let navigate = useNavigate();
@@ -15,12 +15,11 @@ export default function Home() {
 
     function HomeButton(props) {
         return <Button variant="light" 
-                    sx={{ margin: '10px',
-                            marginTop: '50px',
+                    sx={{ marginTop: '50px',
                             textAlign: 'left',
                             height: '100%', 
                             width: '100%', 
-                            fontSize: '38px',
+                            fontSize: '34px',
                             display: 'inline-flex',
                             alignItems: 'flex-begin', 
                             borderRadius: '27.23px', 
@@ -28,6 +27,7 @@ export default function Home() {
                             color: 'black',
                             paddingTop: '130px',
                             paddingLeft: '30px',
+                            overflowWrap: 'break-word',
                             fontWeight: '100',
                             '&:hover': 
                                 { backgroundColor: 'black', 
@@ -49,7 +49,7 @@ export default function Home() {
                     <HomeButton title="Check In" navigateTo="/checkin"/>
                     <HomeButton title="Create Meeting" navigateTo="/meetings"/>
                     <HomeButton title="Attendance History" navigateTo="/history"/>
-                    <HomeButton title="Create Meeting" navigateTo="/meetings"/>
+                    <HomeButton title="Member Roster" navigateTo="/members"/>
                 </SimpleGrid>
             </Layout>
         </Fragment>

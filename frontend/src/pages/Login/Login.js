@@ -8,9 +8,22 @@ import {Fragment, useEffect} from "react";
 export default function MeetingCreation() {
     let navigate = useNavigate();
     useEffect(() => {
-        if(localStorage.getItem("@attendanceToken")){
-            navigate("/");
+        const checkLoggedIn = async () => {
+            if(localStorage.getItem("@attendanceToken")){
+                const request = await fetch("http://localhost:5500/auth", {
+                    headers: {
+                        authorization: "Bearer " + localStorage.getItem("@attendanceToken"),
+                    },
+                });
+                // Get Status
+                const status = await request.status;
+                // If token is invalid, push to login
+                if (status == 200) {
+                    navigate("/");
+                }
+            }
         }
+        checkLoggedIn();
     }, []);
 
     return (

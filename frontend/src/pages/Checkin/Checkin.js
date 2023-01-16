@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Box, Button, Input, Paper, Select, SimpleGrid, StylesApiProvider, Table, Text, TextInput, Title } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { useNavigate } from 'react-router-dom';
-import { verifyCredentials } from '../../Utils/VerifyCredentials.js';
+import { verifyCredentials } from '../../utils/VerifyCredentials.js';
 const { default: jwtDecode } = require("jwt-decode");
 
 export default function Checkin() {
@@ -82,8 +82,9 @@ export default function Checkin() {
           textAlign: 'left',
           height: '100%',
           width: '100%',
-          fontSize: '38px',
+          fontSize: '34px',
           display: 'inline-flex',
+          overflowWrap: 'break-word',
           alignItems: 'flex-begin',
           borderRadius: '27.23px',
           backgroundColor: '#f2f2f2',
@@ -106,17 +107,17 @@ export default function Checkin() {
     } else {
       return <Button variant="light"
         sx={{
-          margin: '10px',
           marginTop: '50px',
           textAlign: 'left',
           height: '100%',
           width: '100%',
-          fontSize: '38px',
+          fontSize: '34px',
           display: 'inline-flex',
           alignItems: 'flex-begin',
           borderRadius: '27.23px',
           backgroundColor: '#f2f2f2',
           color: 'lightgrey',
+          overflowWrap: 'break-word',
           paddingTop: '130px',
           paddingLeft: '30px',
           fontWeight: '100',

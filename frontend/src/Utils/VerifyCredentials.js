@@ -5,9 +5,7 @@ const verifyCredentials = async (navigate) => {
                 authorization: "Bearer " + localStorage.getItem("@attendanceToken"),
             },
         });
-        // Get Status
         const status = await request.status;
-        // If token is invalid, push to login
         if (status !== 200) {
             navigate("/login");
             return 0;

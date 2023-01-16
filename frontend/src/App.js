@@ -5,6 +5,7 @@ import MeetingCreation from "./pages/MeetingCreation/MeetingCreation.js";
 import Login from "./pages/Login/Login.js";
 import Checkin from "./pages/Checkin/Checkin.js";
 import History from "./pages/History/History.js";
+import MemberRoster from "./pages/MemberRoster/MemberRoster.js";
 
 export default function App() {
   
@@ -19,6 +20,7 @@ export default function App() {
       <Route exact path="/login" element={<Login />}/>
       <Route exact path="/checkin" element={<Checkin />}/>
       <Route exact path="/history" element={<History />}/>
+      <Route exact path="/members" element={<MemberRoster />}/>
     </Routes>
   );
 }
