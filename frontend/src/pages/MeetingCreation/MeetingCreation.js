@@ -11,7 +11,7 @@ export default function MeetingCreation() {
     let navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
-            if(await verifyCredentials(navigate)){
+            if(await verifyCredentials(navigate, true)){
                 await getMeetings();
                 setLoaded(true);
             }
@@ -167,7 +167,11 @@ export default function MeetingCreation() {
                             required
                             {...meeting.getInputProps('duration')}
                         />
-                        <Button variant="light" sx={{marginTop:'10px', '&:hover': {backgroundColor: 'black', color: 'white'}}}
+                        <Button variant="light" sx={{marginTop:'10px', backgroundColor: '#c1c1c1', 
+                            color: 'black',
+                            '&:hover': 
+                                { backgroundColor: '#3e3e3e', 
+                                color: 'white' } }}
                             onClick={() => submitMeeting()}>Submit Meeting</Button>
                     </Box>
 

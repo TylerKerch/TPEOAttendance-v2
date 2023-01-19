@@ -5,7 +5,7 @@ import {Fragment, useEffect} from "react";
 
 
 
-export default function MeetingCreation() {
+export default function Login() {
     let navigate = useNavigate();
     useEffect(() => {
         const checkLoggedIn = async () => {

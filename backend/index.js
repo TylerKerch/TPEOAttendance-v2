@@ -56,11 +56,11 @@ app.post('/member', async (req, res) => {
 
 app.post('/admin', async (req, res) => {
   try {
-    const member = req.body.member;
+    const member = req.body.id;
     const snapshot = await db.collection('members');
-    await snapshot.doc(member.user_id).update({ admin: true });
-    const result = await snapshot.doc(member.user_id).get();
-    return res.json({ msg: "Success", data: result.data() });
+    await snapshot.doc(member).update({ admin: true });
+    const result = await snapshot.doc(member).get();
+    return res.json({ msg: "Success"});
   } catch (error) {
     return res.status(400).send(`User does not exist`)
   }
@@ -68,11 +68,11 @@ app.post('/admin', async (req, res) => {
 
 app.post('/revokeAdmin', async (req, res) => {
   try {
-    const member = req.body.member;
+    const member = req.body.id;
     const snapshot = await db.collection('members');
-    await snapshot.doc(member.user_id).update({ admin: false });
-    const result = await snapshot.doc(member.user_id).get();
-    return res.json({ msg: "Success", data: result.data() });
+    await snapshot.doc(member).update({ admin: false });
+    const result = await snapshot.doc(member).get();
+    return res.json({msg: "Success"});
   } catch (error) {
     return res.status(400).send(`User does not exist`)
   }
@@ -82,8 +82,8 @@ app.get('/authAdmin', async (req, res) => {
   try {
     const member = req.body.member;
     const snapshot = await db.collection('members');
-    const result = await snapshot.doc(member.user_id).get();
-    return res.json({ msg: "Success", data: result.data() });
+    const result = (await snapshot.doc(member.user_id).get())['admin'];
+    return res.json({ msg: "Success", data: result});
   } catch (error) {
     return res.status(400).send(`User does not exist`)
   }
@@ -262,8 +262,8 @@ app.post('/member_type', async (req, res) => {
   try {
     const member = req.body.member;
     const snapshot = await db.collection('members');
-    await snapshot.doc(member.user_id).update({type: req.body.type});
-    const result = await snapshot.doc(member.user_id).get();
+    await snapshot.doc(member).update({type: req.body.type});
+    const result = await snapshot.doc(member).get();
     return res.json({ msg: "Success", data: result.data() });
   } catch (error) {
     return res.status(400).send(`User does not exist`)

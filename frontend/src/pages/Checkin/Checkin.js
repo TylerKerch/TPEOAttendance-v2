@@ -1,10 +1,11 @@
 import Layout from '../../components/Layout/Layout.js';
 import { useForm } from '@mantine/form';
 import { Fragment, useEffect, useState } from "react";
-import { Box, Button, Input, Paper, Select, SimpleGrid, StylesApiProvider, Table, Text, TextInput, Title } from '@mantine/core';
+import { Box, Button, Center, Input, Image, Paper, Select, SimpleGrid, Space, StylesApiProvider, Table, Text, TextInput, Title } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { useNavigate } from 'react-router-dom';
 import { verifyCredentials } from '../../utils/VerifyCredentials.js';
+import smiley from "./Smiley.svg";
 const { default: jwtDecode } = require("jwt-decode");
 
 export default function Checkin() {
@@ -27,6 +28,7 @@ export default function Checkin() {
   const [selectedMeeting, setSelectedMeeting] = useState({});
   const [runningMeetings, setRunningMeetings] = useState({});
   const [date, setDate] = useState(Math.round(Date.now() / 1000));
+  
   async function getRunningMeetings() {
     const decode = jwtDecode(localStorage.getItem("@attendanceToken"));
     const res = await fetch("http://localhost:5500/member", {
@@ -48,11 +50,12 @@ export default function Checkin() {
       body: JSON.stringify({ date: Math.round(Date.now() / 1000) }),
     });
     const result = await running_meetings.json();
-    console.log(result.data)
     setRunningMeetings(result.data);
   };
 
   async function verifyPassword() {
+    setDate(Date.now());
+    console.log(date);
     const decode = jwtDecode(localStorage.getItem("@attendanceToken"));
     const res = await fetch("http://localhost:5500/signin", {
       method: "POST",
@@ -60,7 +63,7 @@ export default function Checkin() {
         "Content-Type": "application/json",
         authorization: "Bearer " + localStorage.getItem("@attendanceToken"),
       },
-      body: JSON.stringify({ member: decode, password: password, date: Date.now(), id: selectedMeeting.id }),
+      body: JSON.stringify({ member: decode, password: password, date: date, id: selectedMeeting.id }),
     });
     const result = await res.json();
     if(result.correctPassword){
@@ -68,10 +71,25 @@ export default function Checkin() {
     }
   }
 
+  function dateFormat() {
+    let formatter = Intl.DateTimeFormat(
+      "default", // a locale name; "default" chooses automatically
+      {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+      }
+    );
+  
+  
+    return formatter.format(date);
+  }
 
   function CheckinButton(props) {
-    console.log(member)
-    if (runningMeetings.hasOwnProperty(props.type) && !member.hasOwnProperty(runningMeetings[props.type].id)) {
+    if ((member.type == props.type || props.type == "General") && runningMeetings.hasOwnProperty(props.type) && !member.hasOwnProperty(runningMeetings[props.type].id)) {
       return <Button variant="light"
         sx={{
           margin: '10px',
@@ -133,7 +151,12 @@ export default function Checkin() {
       <Layout headerTitle="Check In" back logout>
         {loaded && 
           (checkingIn ?
-              (loggedIn ? <Text>Success!</Text> :
+              (loggedIn ? <div style={{textAlign: "center", left: '50%', top: '30%', position: 'absolute', transform: 'translate(-50%, -30%)'}}>
+                      <img src={smiley}/>
+                      <Title align="center">You're all Set!</Title>
+                      <Text align="center">{member.name} has been checked in to {selectedMeeting.name} at {dateFormat()}</Text>
+                </div>
+              :
               <Box
                     sx={(theme) => ({
                         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
@@ -151,7 +174,8 @@ export default function Checkin() {
                         },
                     })}
                   >
-                    <Title>Check In for {selectedMeeting.name}</Title>
+                    <Title>{selectedMeeting.name}</Title>
+                    <Text>Enter your passcode in the box below. This is a specialized key generated only for this meeting.</Text>
                     <TextInput
                         sx={{'input': {textAlign: 'center'}}}
                         label="Password"
@@ -159,7 +183,11 @@ export default function Checkin() {
                         value={password}
                         onChange={(event) => setPassword(event.currentTarget.value)}
                     />
-                    <Button variant="light" sx={{marginTop:'10px', '&:hover': {backgroundColor: 'black', color: 'white'}}}
+                    <Button variant="light" sx={{marginTop:'10px', backgroundColor: '#c1c1c1', 
+                            color: 'black',
+                            '&:hover': 
+                                { backgroundColor: '#3e3e3e', 
+                                color: 'white' }}}
                         onClick={() => verifyPassword()}>Check In</Button>
                 </Box>)
             :
@@ -173,6 +201,7 @@ export default function Checkin() {
               <CheckinButton type="Product" />
               <CheckinButton type="Design" />
               <CheckinButton type="Engineering" />
+              <Space h="lg"/>
             </SimpleGrid>)}
       </Layout>
     </Fragment>

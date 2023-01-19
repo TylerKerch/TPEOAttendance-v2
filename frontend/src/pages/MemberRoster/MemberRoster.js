@@ -12,7 +12,7 @@ export default function MemberRoster() {
     let navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
-            if(await verifyCredentials(navigate)){
+            if(await verifyCredentials(navigate, true)){
                 getDropdowns();
                 setLoaded(true);
             }
@@ -32,7 +32,7 @@ export default function MemberRoster() {
         });
         const members_list_result = (await members_list.json()).data;
         const memberDropdowns = members_list_result.map((member) => (
-            <DropdownMember member={member}/>
+            <DropdownMember key={member.id} member={member}/>
         ));
 
         setDropdowns(memberDropdowns);

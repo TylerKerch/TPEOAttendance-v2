@@ -1,7 +1,7 @@
 import {useForm} from '@mantine/form';
 import { IconTrash } from "@tabler/icons";
 import {Fragment, useEffect, useState} from "react";
-import {Accordion, Box, Button, Container, Paper, SimpleGrid, RingProgress, Select, Table, Text, Title, filterProps} from '@mantine/core';
+import {Accordion, Box, Button, Container, Paper, SimpleGrid, Space, RingProgress, Select, Table, Text, Title, filterProps} from '@mantine/core';
 import {DatePicker, TimeInput} from '@mantine/dates';
 import { useNavigate } from 'react-router-dom';
 const { default: jwtDecode } = require("jwt-decode");
@@ -17,6 +17,7 @@ export default function DropdownMember(props) {
 
   const [attendance, setAttendance] = useState([]);
   const [metrics, setMetrics] = useState({});
+  const [admin, setAdmin] = useState(props.member.admin);
 
   async function changeAttendance(newValue, meeting) {
     const res = await fetch("http://localhost:5500/update_attendance", {
@@ -106,7 +107,19 @@ export default function DropdownMember(props) {
     });
     setMetrics({roleCount: roleCount, roleAttended: roleAttended, generalCount: generalCount, generalAttended: generalAttended});
     setAttendance(rows);
-};
+  };
+
+  async function changeAdmin(){
+    await fetch(`http://localhost:5500/${props.member.admin?"revokeAdmin":"admin"}`, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + localStorage.getItem("@attendanceToken"),
+      },
+      body: JSON.stringify({id: props.member.id}),
+    });
+    setAdmin(!admin);
+  }
 
     return (
       <Accordion variant="filled">
@@ -167,6 +180,14 @@ export default function DropdownMember(props) {
                   </tbody>
               </Table>
           </Paper>
+          <Space h="lg"/>
+          <Button onClick={changeAdmin} sx={{backgroundColor: '#c1c1c1', 
+                            color: 'black',
+                            '&:hover': 
+                                { backgroundColor: '#3e3e3e', 
+                                color: 'white' } }}>
+                    {admin?"Remove Admin":"Make Admin"}
+          </Button>
         </Accordion.Panel>
       </Accordion.Item>
       </Accordion>);
