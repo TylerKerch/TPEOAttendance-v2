@@ -1,5 +1,5 @@
-import Layout from '../../components/Layout/Layout.js';
-import LoginLink from '../../components/LoginLink/LoginLink.js';
+import Layout from 'components/Layout/Layout.js';
+import LoginLink from 'components/LoginLink/LoginLink.js';
 import { useNavigate } from "react-router-dom";
 import {Fragment, useEffect} from "react";
 
@@ -10,7 +10,7 @@ export default function Login() {
     useEffect(() => {
         const checkLoggedIn = async () => {
             if(localStorage.getItem("@attendanceToken")){
-                const request = await fetch("http://localhost:5500/auth", {
+                const request = await fetch("http://${process.env.HOSTNAME}/auth", {
                     headers: {
                         authorization: "Bearer " + localStorage.getItem("@attendanceToken"),
                     },

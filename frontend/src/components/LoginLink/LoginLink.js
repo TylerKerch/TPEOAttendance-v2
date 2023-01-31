@@ -1,6 +1,6 @@
  import React from "react";
  import {useNavigate} from "react-router-dom";
- import {auth, firebase} from "../Firebase/firebase";
+ import {auth, firebase} from "components/Firebase/firebase";
  import GoogleButton from 'react-google-button';
  import {Text} from '@mantine/core';
 

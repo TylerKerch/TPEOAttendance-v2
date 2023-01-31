@@ -1,8 +1,8 @@
-import Layout from '../../components/Layout/Layout.js';
+import Layout from 'components/Layout/Layout.js';
 import { Fragment, useEffect,useState} from "react";
 import { Button, SimpleGrid, Space, Title} from '@mantine/core';
 import { useNavigate } from "react-router-dom";
-import {verifyCredentials} from '../../utils/VerifyCredentials.js';
+import {verifyCredentials} from 'utils/VerifyCredentials.js';
 
 export default function Home() {
     let navigate = useNavigate();
@@ -18,7 +18,7 @@ export default function Home() {
 
     async function changeMemberType(type) {
         console.log(member.id);
-        const res = await fetch("http://localhost:5500/member_type", {
+        const res = await fetch("http://${process.env.HOSTNAME}/member_type", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

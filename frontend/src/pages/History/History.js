@@ -1,10 +1,10 @@
-import Layout from '../../components/Layout/Layout.js';
+import Layout from 'components/Layout/Layout.js';
 import {useForm} from '@mantine/form';
 import { IconTrash } from "@tabler/icons";
 import {Fragment, useEffect, useState} from "react";
 import {Box, Button, Container, Paper, RingProgress, Select, SimpleGrid, Table, ActionIcon, Text, TextInput, Title} from '@mantine/core';
 import {DatePicker, TimeInput} from '@mantine/dates';
-import {verifyCredentials} from '../../utils/VerifyCredentials.js';
+import {verifyCredentials} from 'utils/VerifyCredentials.js';
 import { useNavigate } from 'react-router-dom';
 const { default: jwtDecode } = require("jwt-decode");
 
@@ -26,7 +26,7 @@ export default function AttendanceHistory() {
     const [role, setRole] = useState();
 
     async function getAttendance() {
-        const attendance_list = await fetch("http://localhost:5500/attendance_list", {
+        const attendance_list = await fetch("http://${process.env.HOSTNAME}/attendance_list", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

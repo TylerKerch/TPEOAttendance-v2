@@ -1,10 +1,10 @@
-import Layout from '../../components/Layout/Layout.js';
+import Layout from 'components/Layout/Layout.js';
 import {useForm} from '@mantine/form';
 import { IconTrash } from "@tabler/icons";
 import {Fragment, useEffect, useState} from "react";
 import {Box, Button, Paper, Select, SimpleGrid, Table, ActionIcon, Text, TextInput, Title} from '@mantine/core';
 import {DatePicker, TimeInput} from '@mantine/dates';
-import {verifyCredentials} from '../../utils/VerifyCredentials.js';
+import {verifyCredentials} from 'utils/VerifyCredentials.js';
 import { useNavigate } from 'react-router-dom';
 
 export default function MeetingCreation() {
@@ -45,7 +45,7 @@ export default function MeetingCreation() {
         const startDate = new Date(input.date.getTime() + input.time.getHours()*60*60*1000 + input.time.getMinutes()*60*1000)
         const endDate = new Date(startDate.getTime() + input.duration.getHours()*60*60*1000 + input.duration.getMinutes()*60*1000)
 
-        const res = await fetch("http://localhost:5500/meeting", {
+        const res = await fetch("http://${process.env.HOSTNAME}/meeting", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export default function MeetingCreation() {
     }
     
     async function deleteMeeting(meetingName) {
-        const res = await fetch("http://localhost:5500/delete_meeting", {
+        const res = await fetch("http://${process.env.HOSTNAME}/delete_meeting", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function MeetingCreation() {
         getMeetings();
     }
     async function getMeetings() {
-        const meetings_list = await fetch("http://localhost:5500/meetings_list", {
+        const meetings_list = await fetch("http://${process.env.HOSTNAME}/meetings_list", {
             method: "GET",
             headers: {
                 authorization: "Bearer " + localStorage.getItem("@attendanceToken"),

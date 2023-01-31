@@ -1,12 +1,12 @@
-import Layout from '../../components/Layout/Layout.js';
+import Layout from 'components/Layout/Layout.js';
 import {useForm} from '@mantine/form';
 import { IconTrash } from "@tabler/icons";
 import {Fragment, useEffect, useState} from "react";
 import {Box, Button, Paper, Select, SimpleGrid, Table, ActionIcon, Text, TextInput, Title} from '@mantine/core';
 import {DatePicker, TimeInput} from '@mantine/dates';
-import {verifyCredentials} from '../../utils/VerifyCredentials.js';
+import {verifyCredentials} from 'utils/VerifyCredentials.js';
 import { useNavigate } from 'react-router-dom';
-import DropdownMember from '../../utils/DropdownMember.js';
+import DropdownMember from 'utils/DropdownMember.js';
 
 export default function MemberRoster() {
     let navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function MemberRoster() {
     const [dropdowns, setDropdowns] = useState();
 
     async function getDropdowns() {
-        const members_list = await fetch("http://localhost:5500/members_list", {
+        const members_list = await fetch("http://${process.env.HOSTNAME}/members_list", {
             method: "GET",
             headers: {
                 authorization: "Bearer " + localStorage.getItem("@attendanceToken"),

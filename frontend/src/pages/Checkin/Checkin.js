@@ -1,10 +1,10 @@
-import Layout from '../../components/Layout/Layout.js';
+import Layout from 'components/Layout/Layout.js';
 import { useForm } from '@mantine/form';
 import { Fragment, useEffect, useState } from "react";
 import { Box, Button, Center, Input, Image, Paper, Select, SimpleGrid, Space, StylesApiProvider, Table, Text, TextInput, Title } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { useNavigate } from 'react-router-dom';
-import { verifyCredentials } from '../../utils/VerifyCredentials.js';
+import { verifyCredentials } from 'utils/VerifyCredentials.js';
 import smiley from "./Smiley.svg";
 const { default: jwtDecode } = require("jwt-decode");
 
@@ -31,7 +31,7 @@ export default function Checkin() {
   
   async function getRunningMeetings() {
     const decode = jwtDecode(localStorage.getItem("@attendanceToken"));
-    const res = await fetch("http://localhost:5500/member", {
+    const res = await fetch("http://${process.env.HOSTNAME}/member", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default function Checkin() {
     });
     const resJSON = await res.json();
     setMember(resJSON.data);
-    const running_meetings = await fetch("http://localhost:5500/running_meetings", {
+    const running_meetings = await fetch("http://${process.env.HOSTNAME}/running_meetings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,9 +55,8 @@ export default function Checkin() {
 
   async function verifyPassword() {
     setDate(Date.now());
-    console.log(date);
     const decode = jwtDecode(localStorage.getItem("@attendanceToken"));
-    const res = await fetch("http://localhost:5500/signin", {
+    const res = await fetch("http://${process.env.HOSTNAME}/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
