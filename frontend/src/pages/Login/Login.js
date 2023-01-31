@@ -10,7 +10,7 @@ export default function Login() {
     useEffect(() => {
         const checkLoggedIn = async () => {
             if(localStorage.getItem("@attendanceToken")){
-                const request = await fetch("https://${process.env.REACT_APP_HOSTNAME}/auth", {
+                const request = await fetch(`https://${process.env.REACT_APP_HOSTNAME}/auth`, {
                     headers: {
                         authorization: "Bearer " + localStorage.getItem("@attendanceToken"),
                     },

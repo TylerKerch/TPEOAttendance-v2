@@ -18,7 +18,7 @@ export default function Home() {
 
     async function changeMemberType(type) {
         console.log(member.id);
-        const res = await fetch("https://${process.env.REACT_APP_HOSTNAME}/member_type", {
+        const res = await fetch(`https://${process.env.REACT_APP_HOSTNAME}/member_type`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
