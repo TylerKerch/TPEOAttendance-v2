@@ -79,8 +79,8 @@ export default function Home() {
                     { maxWidth: 1300, cols: 1, spacing: 'sm' }
                 ]}>
                 <HomeButton title="Check In" onClick={() => navigate("/checkin")}/>
-                <HomeButton title="Create Meeting" onClick={() => navigate("/meetings")} navigateTo="/meetings"/>
-                {member.admin && <HomeButton title="Attendance History" onClick={() => navigate("/history")} />}
+                {member.admin && <HomeButton title="Create Meeting" onClick={() => navigate("/meetings")} navigateTo="/meetings"/>}
+                <HomeButton title="Attendance History" onClick={() => navigate("/history")} />
                 {member.admin && <HomeButton title="Member Roster" onClick={() => navigate("/members")} />}
                 <Space h="lg"/>
             </SimpleGrid>;
