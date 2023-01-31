@@ -1,4 +1,4 @@
 **/node_modules/*
 **/cred.json
 **/key.json
-**/.env
+.env
