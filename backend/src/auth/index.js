@@ -1,4 +1,4 @@
-const firebase = require("firebase/cred.js");
+const firebase = require("../firebase/cred.js");
 const jwt = require("jwt-decode");
 const { default: jwtDecode } = require("jwt-decode");
 

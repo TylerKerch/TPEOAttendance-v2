@@ -9,9 +9,9 @@
 //npm install installs the dependencies
 const express = require("express");
 const cors = require("cors");
-const admin = require("firebase/cred.js");
+const admin = require("./src/firebase/cred.js");
 const dotenv = require("dotenv").config();
-const authMiddleware = require("auth/index");
+const authMiddleware = require("./src/auth/index.js");
 const uuid = require("uuid");
 const { response } = require("express");
 
