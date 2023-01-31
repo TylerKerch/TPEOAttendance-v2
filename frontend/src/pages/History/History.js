@@ -26,7 +26,7 @@ export default function AttendanceHistory() {
     const [role, setRole] = useState();
 
     async function getAttendance() {
-        const attendance_list = await fetch("http://${process.env.REACT_APP_HOSTNAME}/attendance_list", {
+        const attendance_list = await fetch("https://${process.env.REACT_APP_HOSTNAME}/attendance_list", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -24,7 +24,7 @@ export default function MemberRoster() {
     const [dropdowns, setDropdowns] = useState();
 
     async function getDropdowns() {
-        const members_list = await fetch("http://${process.env.REACT_APP_HOSTNAME}/members_list", {
+        const members_list = await fetch("https://${process.env.REACT_APP_HOSTNAME}/members_list", {
             method: "GET",
             headers: {
                 authorization: "Bearer " + localStorage.getItem("@attendanceToken"),

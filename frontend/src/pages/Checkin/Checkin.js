@@ -31,7 +31,7 @@ export default function Checkin() {
   
   async function getRunningMeetings() {
     const decode = jwtDecode(localStorage.getItem("@attendanceToken"));
-    const res = await fetch("http://${process.env.REACT_APP_HOSTNAME}/member", {
+    const res = await fetch("https://${process.env.REACT_APP_HOSTNAME}/member", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default function Checkin() {
     });
     const resJSON = await res.json();
     setMember(resJSON.data);
-    const running_meetings = await fetch("http://${process.env.REACT_APP_HOSTNAME}/running_meetings", {
+    const running_meetings = await fetch("https://${process.env.REACT_APP_HOSTNAME}/running_meetings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export default function Checkin() {
   async function verifyPassword() {
     setDate(Date.now());
     const decode = jwtDecode(localStorage.getItem("@attendanceToken"));
-    const res = await fetch("http://${process.env.REACT_APP_HOSTNAME}/signin", {
+    const res = await fetch("https://${process.env.REACT_APP_HOSTNAME}/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
