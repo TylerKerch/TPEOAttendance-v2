@@ -1,5 +1,4 @@
 const firebase = require("firebase-admin");
-const credentials = require("./cred.json");
 require('dotenv').config()
 
 const serviceAccount = JSON.parse(
