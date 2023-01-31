@@ -45,7 +45,7 @@ export default function MeetingCreation() {
         const startDate = new Date(input.date.getTime() + input.time.getHours()*60*60*1000 + input.time.getMinutes()*60*1000)
         const endDate = new Date(startDate.getTime() + input.duration.getHours()*60*60*1000 + input.duration.getMinutes()*60*1000)
 
-        const res = await fetch("http://${process.env.HOSTNAME}/meeting", {
+        const res = await fetch("http://${process.env.REACT_APP_HOSTNAME}/meeting", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export default function MeetingCreation() {
     }
     
     async function deleteMeeting(meetingName) {
-        const res = await fetch("http://${process.env.HOSTNAME}/delete_meeting", {
+        const res = await fetch("http://${process.env.REACT_APP_HOSTNAME}/delete_meeting", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function MeetingCreation() {
         getMeetings();
     }
     async function getMeetings() {
-        const meetings_list = await fetch("http://${process.env.HOSTNAME}/meetings_list", {
+        const meetings_list = await fetch("http://${process.env.REACT_APP_HOSTNAME}/meetings_list", {
             method: "GET",
             headers: {
                 authorization: "Bearer " + localStorage.getItem("@attendanceToken"),

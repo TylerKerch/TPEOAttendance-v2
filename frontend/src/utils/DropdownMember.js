@@ -20,7 +20,7 @@ export default function DropdownMember(props) {
   const [admin, setAdmin] = useState(props.member.admin);
 
   async function changeAttendance(newValue, meeting) {
-    const res = await fetch("http://${process.env.HOSTNAME}/update_attendance", {
+    const res = await fetch("http://${process.env.REACT_APP_HOSTNAME}/update_attendance", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export default function DropdownMember(props) {
     getAttendance();
   }
   async function getAttendance() {
-    const attendance_list = await fetch("http://${process.env.HOSTNAME}/attendance_list", {
+    const attendance_list = await fetch("http://${process.env.REACT_APP_HOSTNAME}/attendance_list", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export default function DropdownMember(props) {
   };
 
   async function changeAdmin(){
-    await fetch(`http://${process.env.HOSTNAME}/${props.member.admin?"revokeAdmin":"admin"}`, {
+    await fetch(`http://${process.env.REACT_APP_HOSTNAME}/${props.member.admin?"revokeAdmin":"admin"}`, {
       method: "POST",
       headers: {
           "Content-Type": "application/json",

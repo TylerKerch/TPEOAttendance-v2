@@ -10,6 +10,8 @@
     "@mantine/form": "^5.0.2",
     "@tabler/icons": "^1.78.1",
     "create-react-app": "^5.0.1",
+    "dotenv": "^16.0.3",
+    "env-cmd": "^10.1.0",
     "firebase": "^9.9.2",
     "jwt-decode": "^3.1.2",
     "react-dom": "^18.2.0",
@@ -18,8 +20,8 @@
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env-cmd -f .env react-scripts start",
+    "build": "env-cmd -f .env react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

@@ -23,7 +23,6 @@ const db = admin.firestore();
 // Define app and port
 const app = express();
 const port = process.env.PORT;
-
 // More Middlware
 app.use(cors());
 app.use(express.json());
