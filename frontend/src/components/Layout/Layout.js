@@ -34,9 +34,8 @@ export default function Layout(props) {
                         </Button>}
                         {props.headerTitle && <Text sx={{marginLeft:'10px',
                                                         marginRight: '10px',
-                                                        color: 'white',
                                                         fontSize:(window.matchMedia("(max-width: 450px)").matches?'40px':'60px'),
-                                                        textShadow: '2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black',
+                                                        //textShadow: '-1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px -1.5px 0 #000',
                                                         fontStyle: 'normal',
                                                         fontWeight: '500',
                                                         whiteSpace: 'nowrap'}}>
@@ -54,7 +53,7 @@ export default function Layout(props) {
         <AppShell 
             header={getHeader()}
             styles={(theme) => ({
-                main: {backgroundSize: "cover", backgroundRepeat: 'no-repeat', backgroundImage: `url(${background})`, backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+                main: {backgroundSize: "cover", backgroundRepeat: 'no-repeat', backgroundImage: `url(${background})`, imageRendering: '-webkit-optimize-contrast', backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
             })}
         >
             {props.children}

@@ -140,7 +140,7 @@ export default function Checkin() {
           fontWeight: '100',
           cursor: 'default'
         }}>
-        {props.type} Meeting
+        {props.type}
       </Button>
     }
   }
